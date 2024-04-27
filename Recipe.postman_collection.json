@@ -1,0 +1,18 @@
+{
+	"info": {
+		"_postman_id": "622487ce-4c70-412c-b01d-a8e698769baa",
+		"name": "Recipe",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "14394619"
+	},
+	"item": [
+		{
+			"name": "Test",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	]
+}
