@@ -17,7 +17,7 @@ public class Test {
 
 	@GetMapping(path = "/")
 	public ResponseEntity<StringToObject> test() {
-		return new ResponseEntity<>(new StringToObject("Working in env " + envName), HttpStatus.OK);
+		return new ResponseEntity<>(new StringToObject("Working in ENV " + envName), HttpStatus.OK);
 	}
 
 }
