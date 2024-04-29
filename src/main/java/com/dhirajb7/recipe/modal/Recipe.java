@@ -44,7 +44,7 @@ public class Recipe {
 	@Column(name = "recipe_steps", nullable = false)
 	private List<String> steps;
 
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "recipe_ingredient", joinColumns = @JoinColumn(name = "recipe_id", referencedColumnName = "recipeId"), inverseJoinColumns = @JoinColumn(name = "ingredient_id", referencedColumnName = "ingredientId"))
 	private List<Ingredient> ingredients;
 
