@@ -35,6 +35,7 @@ public class IngredentService implements IngredientInterface {
 	@Override
 	public Ingredient addAnIngredient(Ingredient ingredient) {
 		try {
+			ingredient.setName(ingredient.getName().toLowerCase());
 			return repo.save(ingredient);
 		} catch (Exception e) {
 			if (e.getMessage().contains("unique")) {
