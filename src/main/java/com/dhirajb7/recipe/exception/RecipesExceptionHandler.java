@@ -36,13 +36,4 @@ public class RecipesExceptionHandler {
 		return new ResponseEntity<Object>(ge, HttpStatus.BAD_REQUEST);
 	}
 
-//	if not above exception then 500
-
-	@ExceptionHandler
-	public ResponseEntity<Object> generalException(Exception e) {
-		GeneralExceptionGenerator ge = new GeneralExceptionGenerator(500, e.getMessage(),
-				new Timestamp(System.currentTimeMillis()).toString());
-		return new ResponseEntity<Object>(ge, HttpStatus.INTERNAL_SERVER_ERROR);
-	}
-
 }

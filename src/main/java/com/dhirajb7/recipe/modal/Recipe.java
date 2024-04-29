@@ -2,25 +2,26 @@ package com.dhirajb7.recipe.modal;
 
 import java.util.List;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.Lob;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
-import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
 @Table(name = "recipes")
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class Recipe {
 
 	@Id
@@ -43,25 +44,11 @@ public class Recipe {
 	@Column(name = "recipe_steps", nullable = false)
 	private List<String> steps;
 
-	@OneToMany(targetEntity = Ingredient.class, cascade = CascadeType.ALL)
-	@JoinColumn(name = "recipe_fk", referencedColumnName = "recipeId")
+	@ManyToMany(fetch = FetchType.LAZY)
+	@JoinTable(name = "recipe_ingredient", joinColumns = @JoinColumn(name = "recipe_id", referencedColumnName = "recipeId"), inverseJoinColumns = @JoinColumn(name = "ingredient_id", referencedColumnName = "ingredientId"))
 	private List<Ingredient> ingredients;
 
 	@Column(name = "is_veg")
-	@Setter(value = AccessLevel.NONE) // Prevents Lombok from generating a setter
 	private boolean veg;
-
-	public Recipe(Long recipeId, String name, String imagePrefix, byte[] image, String description, List<String> steps,
-			List<Ingredient> ingredients) {
-		super();
-		this.recipeId = recipeId;
-		this.name = name;
-		this.imagePrefix = imagePrefix;
-		this.image = image;
-		this.description = description;
-		this.steps = steps;
-		this.ingredients = ingredients;
-		this.veg = ingredients.stream().allMatch(ing -> ing.isVeg());
-	}
 
 }

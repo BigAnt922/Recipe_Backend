@@ -1,5 +1,6 @@
 package com.dhirajb7.recipe.service.ingredient;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,7 +70,7 @@ public class IngredentService implements IngredientInterface {
 				repo.updateImagePrefix(id, imagePrefix);
 			}
 
-			if (ingredientFromDB.getImage() != image) {
+			if (!Arrays.equals(ingredientFromDB.getImage(), image)) {
 				changeTracker += "image ";
 				repo.updateImage(id, image);
 			}
@@ -94,7 +95,8 @@ public class IngredentService implements IngredientInterface {
 	@Override
 	public StringToObject deleteAnIngredent(Long id) {
 		try {
-			repo.deleteById(id);
+			Ingredient ingridentFromDB = repo.findById(id).get();
+			repo.delete(ingridentFromDB);
 			return new StringToObject(id + " is deleted");
 		} catch (Exception e) {
 			throw new IngredientNotFoundException("Ingredient with id : " + id + " not found");
@@ -104,7 +106,7 @@ public class IngredentService implements IngredientInterface {
 	private String changeTrackerOutput(String data) {
 
 		if (data.length() == 0) {
-			return "Nothing Changed";
+			return "nothing changed";
 		} else {
 			return data.trim().replaceAll(" ", ", ") + " changed.";
 		}

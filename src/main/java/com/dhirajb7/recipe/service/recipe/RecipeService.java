@@ -1,5 +1,6 @@
 package com.dhirajb7.recipe.service.recipe;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,7 @@ public class RecipeService implements RecipeInterface {
 	public Recipe addRecipe(Recipe recipe) {
 		try {
 			recipe.setName(recipe.getName().toLowerCase());
+			recipe.setVeg(recipe.getIngredients().stream().allMatch(ing -> ing.isVeg()));
 			return repo.save(recipe);
 		} catch (Exception e) {
 			if (e.getMessage().contains("unique")) {
@@ -73,7 +75,7 @@ public class RecipeService implements RecipeInterface {
 				repo.updateImagePrefix(id, imagePrefix);
 			}
 
-			if (image != recipeFromDB.getImage()) {
+			if (!Arrays.equals(image, recipe.getImage())) {
 				changeTracker += "image ";
 				repo.updateImage(id, image);
 			}
@@ -107,7 +109,8 @@ public class RecipeService implements RecipeInterface {
 	@Override
 	public StringToObject deleteRecipeById(Long id) {
 		try {
-			repo.deleteById(id);
+			Recipe recipeFromDB = repo.findById(id).get();
+			repo.delete(recipeFromDB);
 			return new StringToObject(id + " is deleted");
 		} catch (Exception e) {
 			throw new RecipeNotFoundException("Recipe of id : " + id + " not found");
@@ -117,7 +120,7 @@ public class RecipeService implements RecipeInterface {
 	private String changeTrackerOutput(String data) {
 
 		if (data.length() == 0) {
-			return "Nothing Changed";
+			return "nothing changed";
 		} else {
 			return data.trim().replaceAll(" ", ", ") + " changed.";
 		}
