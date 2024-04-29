@@ -28,7 +28,7 @@ public class IngredentService implements IngredientInterface {
 		try {
 			return repo.findById(id).get();
 		} catch (Exception e) {
-			throw new IngredientNotFoundException(e.getMessage());
+			throw new IngredientNotFoundException("Ingredient with id : " + id + " not found");
 		}
 	}
 
@@ -57,42 +57,58 @@ public class IngredentService implements IngredientInterface {
 
 			Ingredient ingredientFromDB = repo.findById(id).get();
 
-			if (ingredientFromDB.getName() != name) {
+			String changeTracker = "";
+
+			if (!(ingredientFromDB.getName().equalsIgnoreCase(name))) {
+				changeTracker += "name ";
 				repo.updateName(id, name);
 			}
 
-			if (ingredientFromDB.getImagePrefix() != imagePrefix) {
+			if (!(ingredientFromDB.getImagePrefix().equalsIgnoreCase(imagePrefix))) {
+				changeTracker += "imagePrefix ";
 				repo.updateImagePrefix(id, imagePrefix);
 			}
 
 			if (ingredientFromDB.getImage() != image) {
+				changeTracker += "image ";
 				repo.updateImage(id, image);
 			}
 
-			if (ingredientFromDB.getDescription() != description) {
+			if (!(ingredientFromDB.getDescription().equalsIgnoreCase(description))) {
+				changeTracker += "description ";
 				repo.updateDescription(id, description);
 			}
 
 			if (ingredientFromDB.isVeg() != veg) {
+				changeTracker += "veg ";
 				repo.updateVeg(id, veg);
 			}
 
-			return new StringToObject("Changes Done");
+			return new StringToObject(changeTrackerOutput(changeTracker));
 
 		} catch (Exception e) {
-			throw new IngredientNotFoundException(e.getMessage());
+			throw new IngredientNotFoundException("Ingredient with id : " + id + " not found");
 		}
 	}
 
 	@Override
 	public StringToObject deleteAnIngredent(Long id) {
 		try {
-			Ingredient ingredientToBeDeleted = repo.findById(id).get();
-			repo.delete(ingredientToBeDeleted);
+			repo.deleteById(id);
 			return new StringToObject(id + " is deleted");
 		} catch (Exception e) {
-			throw new IngredientNotFoundException(e.getMessage());
+			throw new IngredientNotFoundException("Ingredient with id : " + id + " not found");
 		}
+	}
+
+	private String changeTrackerOutput(String data) {
+
+		if (data.length() == 0) {
+			return "Nothing Changed";
+		} else {
+			return data.trim().replaceAll(" ", ", ") + " changed.";
+		}
+
 	}
 
 }
