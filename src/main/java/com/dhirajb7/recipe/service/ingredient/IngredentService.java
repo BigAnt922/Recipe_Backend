@@ -25,7 +25,7 @@ public class IngredentService implements IngredientInterface {
 	}
 
 	@Override
-	public Ingredient getIntIngredientById(Long id) {
+	public Ingredient getIngredientById(Long id) {
 		try {
 			return repo.findById(id).get();
 		} catch (Exception e) {
@@ -34,7 +34,7 @@ public class IngredentService implements IngredientInterface {
 	}
 
 	@Override
-	public Ingredient addAnIngredient(Ingredient ingredient) {
+	public Ingredient addIngredient(Ingredient ingredient) {
 		try {
 			ingredient.setName(ingredient.getName().toLowerCase());
 			return repo.save(ingredient);
@@ -48,7 +48,7 @@ public class IngredentService implements IngredientInterface {
 	}
 
 	@Override
-	public StringToObject editAnIngredient(Long id, Ingredient ingredient) {
+	public StringToObject editIngredient(Long id, Ingredient ingredient) {
 		try {
 			String name = ingredient.getName();
 			String imagePrefix = ingredient.getImagePrefix();
@@ -93,7 +93,7 @@ public class IngredentService implements IngredientInterface {
 	}
 
 	@Override
-	public StringToObject deleteAnIngredent(Long id) {
+	public StringToObject deleteIngredent(Long id) {
 		try {
 			Ingredient ingridentFromDB = repo.findById(id).get();
 			repo.delete(ingridentFromDB);

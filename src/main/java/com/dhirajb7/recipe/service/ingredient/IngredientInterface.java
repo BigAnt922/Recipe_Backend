@@ -9,12 +9,12 @@ public interface IngredientInterface {
 
 	List<Ingredient> getAllIngredients();
 
-	Ingredient getIntIngredientById(Long id);
+	Ingredient getIngredientById(Long id);
 
-	Ingredient addAnIngredient(Ingredient ingredient);
+	Ingredient addIngredient(Ingredient ingredient);
 
-	StringToObject editAnIngredient(Long id, Ingredient ingredient);
+	StringToObject editIngredient(Long id, Ingredient ingredient);
 
-	StringToObject deleteAnIngredent(Long id);
+	StringToObject deleteIngredent(Long id);
 
 }

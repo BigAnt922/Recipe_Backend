@@ -13,39 +13,38 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dhirajb7.recipe.factory.StringToObject;
-import com.dhirajb7.recipe.modal.Ingredient;
-import com.dhirajb7.recipe.service.ingredient.IngredentService;
+import com.dhirajb7.recipe.modal.Catagory;
+import com.dhirajb7.recipe.service.catagory.CatagoryService;
 
 @RestController
-@RequestMapping(path = "ingredient")
-public class IngredientController {
+@RequestMapping(path = "catagory")
+public class CatagoryController {
 
 	@Autowired
-	private IngredentService service;
+	private CatagoryService service;
 
 	@GetMapping(path = "/")
-	public ResponseEntity<Object> getAllIngredients() {
-		return new ResponseEntity<Object>(service.getAllIngredients(), HttpStatus.OK);
+	public ResponseEntity<Object> getAllCatagories() {
+		return new ResponseEntity<Object>(service.getAllCatagories(), HttpStatus.OK);
 	}
 
 	@GetMapping(path = "/{id}")
-	public ResponseEntity<Object> getIngredientById(@PathVariable("id") Long id) {
-		return new ResponseEntity<Object>(service.getIngredientById(id), HttpStatus.OK);
+	public ResponseEntity<Object> getCatagoryById(@PathVariable("id") Long id) {
+		return new ResponseEntity<Object>(service.getCatagoryById(id), HttpStatus.OK);
 	}
 
 	@PostMapping(path = "/")
-	public ResponseEntity<Object> addIngredient(@RequestBody Ingredient ingredient) {
-		return new ResponseEntity<Object>(service.addIngredient(ingredient), HttpStatus.CREATED);
+	public ResponseEntity<Object> addCatagory(@RequestBody Catagory catagory) {
+		return new ResponseEntity<Object>(service.addCatagory(catagory), HttpStatus.CREATED);
 	}
 
 	@PutMapping(path = "/{id}")
-	public ResponseEntity<StringToObject> editIngredient(@PathVariable("id") Long id,
-			@RequestBody Ingredient ingredient) {
-		return new ResponseEntity<StringToObject>(service.editIngredient(id, ingredient), HttpStatus.OK);
+	public ResponseEntity<StringToObject> editIngredient(@PathVariable("id") Long id, @RequestBody Catagory catagory) {
+		return new ResponseEntity<StringToObject>(service.editCatagory(id, catagory), HttpStatus.OK);
 	}
 
 	@DeleteMapping(path = "/{id}")
 	public ResponseEntity<StringToObject> deleteIngredient(@PathVariable("id") Long id) {
-		return new ResponseEntity<StringToObject>(service.deleteIngredent(id), HttpStatus.OK);
+		return new ResponseEntity<StringToObject>(service.deleteCatagory(id), HttpStatus.OK);
 	}
 }
