@@ -16,7 +16,7 @@ public class ZExceptionHandler {
 
 	@ExceptionHandler
 	public ResponseEntity<Object> generalException(Exception e) {
-		GeneralExceptionGenerator ge = new GeneralExceptionGenerator(500, e.getMessage(),
+		GeneralExceptionGenerator ge = new GeneralExceptionGenerator(500, e.toString(),
 				new Timestamp(System.currentTimeMillis()).toString());
 		return new ResponseEntity<Object>(ge, HttpStatus.INTERNAL_SERVER_ERROR);
 	}

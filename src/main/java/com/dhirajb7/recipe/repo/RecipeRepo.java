@@ -8,7 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.dhirajb7.recipe.modal.Ingredient;
 import com.dhirajb7.recipe.modal.Recipe;
 
 import jakarta.transaction.Transactional;
@@ -26,10 +25,10 @@ public interface RecipeRepo extends JpaRepository<Recipe, Long> {
 	@Query("update Recipe e set e.imagePrefix = :imagePrefix where e.recipeId = :recipeId")
 	void updateImagePrefix(@Param("recipeId") long recipeId, @Param("imagePrefix") String imagePrefix);
 
-	@Transactional
-	@Modifying
-	@Query("update Recipe e set e.image = :image where e.recipeId = :recipeId")
-	void updateImage(@Param("recipeId") long recipeId, @Param("image") byte[] image);
+//	@Transactional
+//	@Modifying
+//	@Query("update Recipe e set e.image = :image where e.recipeId = :recipeId")
+//	void updateImage(@Param("recipeId") long recipeId, @Param("image") byte[] image);
 
 	@Transactional
 	@Modifying
@@ -43,8 +42,13 @@ public interface RecipeRepo extends JpaRepository<Recipe, Long> {
 
 	@Transactional
 	@Modifying
-	@Query("update Recipe e set e.ingredients = :ingredients where e.recipeId = :recipeId")
-	void updateIngrdients(@Param("recipeId") long recipeId, @Param("ingredients") List<Ingredient> ingredients);
+	@Query(nativeQuery = true, value = "INSERT INTO recipe_ingredient(recipe_id, ingredient_id)VALUES (:recipeId, :ingredientId)")
+	void updateNewIngrdient(@Param("recipeId") long recipeId, @Param("ingredientId") long ingredientId);
+
+	@Transactional
+	@Modifying
+	@Query(nativeQuery = true, value = "DELETE FROM recipe_ingredient WHERE recipe_id =:recipeId AND ingredient_id=:ingredientId ")
+	void updateRemovedIngrdient(@Param("recipeId") long recipeId, @Param("ingredientId") long ingredientId);
 
 	@Transactional
 	@Modifying

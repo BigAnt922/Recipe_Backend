@@ -1,6 +1,5 @@
 package com.dhirajb7.recipe.service.ingredient;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,7 +51,7 @@ public class IngredentService implements IngredientInterface {
 		try {
 			String name = ingredient.getName();
 			String imagePrefix = ingredient.getImagePrefix();
-			byte[] image = ingredient.getImage();
+//			byte[] image = ingredient.getImage();
 			String description = ingredient.getDescription();
 			boolean veg = ingredient.isVeg();
 
@@ -70,10 +69,10 @@ public class IngredentService implements IngredientInterface {
 				repo.updateImagePrefix(id, imagePrefix);
 			}
 
-			if (!Arrays.equals(ingredientFromDB.getImage(), image)) {
-				changeTracker += "image ";
-				repo.updateImage(id, image);
-			}
+//			if (!Arrays.equals(ingredientFromDB.getImage(), image)) {
+//				changeTracker += "image ";
+//				repo.updateImage(id, image);
+//			}
 
 			if (!(ingredientFromDB.getDescription().equalsIgnoreCase(description))) {
 				changeTracker += "description ";

@@ -23,10 +23,10 @@ public interface IngredientRepo extends JpaRepository<Ingredient, Long> {
 	@Query("update Ingredient e set e.imagePrefix = :imagePrefix where e.ingredientId = :ingredientId")
 	void updateImagePrefix(@Param("ingredientId") long ingredientId, @Param("imagePrefix") String imagePrefix);
 
-	@Transactional
-	@Modifying
-	@Query("update Ingredient e set e.image = :image where e.ingredientId = :ingredientId")
-	void updateImage(@Param("ingredientId") long ingredientId, @Param("image") byte[] image);
+//	@Transactional
+//	@Modifying
+//	@Query("update Ingredient e set e.image = :image where e.ingredientId = :ingredientId")
+//	void updateImage(@Param("ingredientId") long ingredientId, @Param("image") byte[] image);
 
 	@Transactional
 	@Modifying

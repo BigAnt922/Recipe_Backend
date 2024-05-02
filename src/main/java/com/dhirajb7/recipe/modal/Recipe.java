@@ -12,7 +12,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
-import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
@@ -37,9 +36,9 @@ public class Recipe {
 	@Column(nullable = false, name = "recipe_image_prefix")
 	private String imagePrefix;
 
-	@Lob
-	@Column(name = "recipe_image", nullable = false)
-	private byte[] image;
+//	@Lob
+//	@Column(name = "recipe_image", nullable = false)
+//	private byte[] image;
 
 	@Column(name = "recipe_description")
 	private String description;

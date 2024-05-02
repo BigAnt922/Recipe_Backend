@@ -9,7 +9,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Lob;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -33,9 +32,9 @@ public class Catagory {
 	@Column(nullable = false, name = "catagory_image_prefix")
 	private String imagePrefix;
 
-	@Lob
-	@Column(name = "catagory_image", nullable = false)
-	private byte[] image;
+//	@Lob
+//	@Column(name = "catagory_image", nullable = false)
+//	private byte[] image;
 
 	@Column(name = "catagory_description")
 	private String description;
