@@ -67,6 +67,8 @@ public class RecipeService implements RecipeInterface {
 			boolean veg = ingredients.stream().allMatch(ing -> ing.isVeg());
 
 			Recipe recipeFromDB = repo.findById(id).get();
+			List<Long> alreadyPresentIdInDB = recipeFromDB.getIngredients().stream().map(a -> a.getIngredientId())
+					.collect(Collectors.toList());
 
 			String changeTracker = "";
 
@@ -90,15 +92,13 @@ public class RecipeService implements RecipeInterface {
 				repo.updateDescription(id, description);
 			}
 
-			if (steps != recipeFromDB.getSteps()) {
+			if (!steps.equals(recipeFromDB.getSteps())) {
 				changeTracker += "steps ";
 				repo.updateSteps(id, steps);
 			}
 
-			if (ingredients != recipeFromDB.getIngredients()) {
+			if (!ingredientsIds.equals(alreadyPresentIdInDB)) {
 				changeTracker += "ingredients ";
-				List<Long> alreadyPresentIdInDB = recipeFromDB.getIngredients().stream().map(a -> a.getIngredientId())
-						.collect(Collectors.toList());
 
 				List<Long> newlyAddedIngredentIds = getChangedIngredent(alreadyPresentIdInDB, ingredientsIds);
 
