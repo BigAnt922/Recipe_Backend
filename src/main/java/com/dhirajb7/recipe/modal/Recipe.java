@@ -12,12 +12,13 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Table(name = "recipes")
@@ -36,9 +37,9 @@ public class Recipe {
 	@Column(nullable = false, name = "recipe_image_prefix")
 	private String imagePrefix;
 
-//	@Lob
-//	@Column(name = "recipe_image", nullable = false)
-//	private byte[] image;
+	@Lob
+	@Column(name = "recipe_image", nullable = false)
+	private byte[] image;
 
 	@Column(name = "recipe_description")
 	private String description;
@@ -53,9 +54,9 @@ public class Recipe {
 	@Column(name = "is_veg")
 	private boolean veg;
 
-	@ManyToOne
-	@JoinColumn(name = "fk_catagory_id")
+	@ManyToMany(mappedBy = "recipes")
+	@ToString.Exclude
 	@JsonIgnore
-	private Catagory catagory;
+	private List<Catagory> catagories;
 
 }

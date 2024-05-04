@@ -25,10 +25,10 @@ public interface RecipeRepo extends JpaRepository<Recipe, Long> {
 	@Query("update Recipe e set e.imagePrefix = :imagePrefix where e.recipeId = :recipeId")
 	void updateImagePrefix(@Param("recipeId") long recipeId, @Param("imagePrefix") String imagePrefix);
 
-//	@Transactional
-//	@Modifying
-//	@Query("update Recipe e set e.image = :image where e.recipeId = :recipeId")
-//	void updateImage(@Param("recipeId") long recipeId, @Param("image") byte[] image);
+	@Transactional
+	@Modifying
+	@Query("update Recipe e set e.image = :image where e.recipeId = :recipeId")
+	void updateImage(@Param("recipeId") long recipeId, @Param("image") byte[] image);
 
 	@Transactional
 	@Modifying

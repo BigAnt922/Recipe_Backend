@@ -1,5 +1,6 @@
 package com.dhirajb7.recipe.service.ingredient;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,12 +12,16 @@ import com.dhirajb7.recipe.exception.ingredients.IngredientsCannotBeCreatedExcep
 import com.dhirajb7.recipe.factory.StringToObject;
 import com.dhirajb7.recipe.modal.Ingredient;
 import com.dhirajb7.recipe.repo.IngredientRepo;
+import com.dhirajb7.recipe.service.Helper;
 
 @Service
 public class IngredentService implements IngredientInterface {
 
 	@Autowired
 	private IngredientRepo repo;
+
+	@Autowired
+	private Helper helper;
 
 	@Override
 	public List<Ingredient> getAllIngredients() {
@@ -51,7 +56,7 @@ public class IngredentService implements IngredientInterface {
 		try {
 			String name = ingredient.getName();
 			String imagePrefix = ingredient.getImagePrefix();
-//			byte[] image = ingredient.getImage();
+			byte[] image = ingredient.getImage();
 			String description = ingredient.getDescription();
 			boolean veg = ingredient.isVeg();
 
@@ -69,10 +74,10 @@ public class IngredentService implements IngredientInterface {
 				repo.updateImagePrefix(id, imagePrefix);
 			}
 
-//			if (!Arrays.equals(ingredientFromDB.getImage(), image)) {
-//				changeTracker += "image ";
-//				repo.updateImage(id, image);
-//			}
+			if (!Arrays.equals(ingredientFromDB.getImage(), image)) {
+				changeTracker += "image ";
+				repo.updateImage(id, image);
+			}
 
 			if (!(ingredientFromDB.getDescription().equalsIgnoreCase(description))) {
 				changeTracker += "description ";
@@ -84,7 +89,7 @@ public class IngredentService implements IngredientInterface {
 				repo.updateVeg(id, veg);
 			}
 
-			return new StringToObject(changeTrackerOutput(changeTracker));
+			return new StringToObject(helper.changeTrackerOutput(changeTracker));
 
 		} catch (Exception e) {
 			throw new IngredientNotFoundException("Ingredient with id : " + id + " not found");
@@ -100,16 +105,6 @@ public class IngredentService implements IngredientInterface {
 		} catch (Exception e) {
 			throw new IngredientNotFoundException("Ingredient with id : " + id + " not found");
 		}
-	}
-
-	private String changeTrackerOutput(String data) {
-
-		if (data.length() == 0) {
-			return "nothing changed";
-		} else {
-			return data.trim().replaceAll(" ", ", ") + " changed.";
-		}
-
 	}
 
 }

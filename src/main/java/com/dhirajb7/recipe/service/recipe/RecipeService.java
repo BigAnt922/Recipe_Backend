@@ -1,10 +1,7 @@
 package com.dhirajb7.recipe.service.recipe;
 
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,12 +14,16 @@ import com.dhirajb7.recipe.factory.StringToObject;
 import com.dhirajb7.recipe.modal.Ingredient;
 import com.dhirajb7.recipe.modal.Recipe;
 import com.dhirajb7.recipe.repo.RecipeRepo;
+import com.dhirajb7.recipe.service.Helper;
 
 @Service
 public class RecipeService implements RecipeInterface {
 
 	@Autowired
 	private RecipeRepo repo;
+
+	@Autowired
+	private Helper helper;
 
 	@Override
 	public List<Recipe> getAllRecipes() {
@@ -59,7 +60,7 @@ public class RecipeService implements RecipeInterface {
 
 			String name = recipe.getName();
 			String imagePrefix = recipe.getImagePrefix();
-//			byte[] image = recipe.getImage();
+			byte[] image = recipe.getImage();
 			String description = recipe.getDescription();
 			List<String> steps = recipe.getSteps();
 			List<Ingredient> ingredients = recipe.getIngredients();
@@ -82,10 +83,10 @@ public class RecipeService implements RecipeInterface {
 				repo.updateImagePrefix(id, imagePrefix);
 			}
 
-//			if (!Arrays.equals(image, recipe.getImage())) {
-//				changeTracker += "image ";
-//				repo.updateImage(id, image);
-//			}
+			if (!Arrays.equals(image, recipe.getImage())) {
+				changeTracker += "image ";
+				repo.updateImage(id, image);
+			}
 
 			if (!(description.equalsIgnoreCase(recipeFromDB.getDescription()))) {
 				changeTracker += "description ";
@@ -100,7 +101,7 @@ public class RecipeService implements RecipeInterface {
 			if (!ingredientsIds.equals(alreadyPresentIdInDB)) {
 				changeTracker += "ingredients ";
 
-				List<Long> newlyAddedIngredentIds = getChangedIngredent(alreadyPresentIdInDB, ingredientsIds);
+				List<Long> newlyAddedIngredentIds = helper.getChangedIngredent(alreadyPresentIdInDB, ingredientsIds);
 
 				for (Long changedId : newlyAddedIngredentIds) {
 
@@ -119,7 +120,7 @@ public class RecipeService implements RecipeInterface {
 				repo.updateVeg(id, veg);
 			}
 
-			return new StringToObject(changeTrackerOutput(changeTracker));
+			return new StringToObject(helper.changeTrackerOutput(changeTracker));
 		} catch (RecipeNotFoundException e) {
 			throw new RecipeNotFoundException("Recipe of id : " + id + " not found");
 		}
@@ -134,40 +135,6 @@ public class RecipeService implements RecipeInterface {
 		} catch (Exception e) {
 			throw new RecipeNotFoundException("Recipe of id : " + id + " not found");
 		}
-	}
-
-	private String changeTrackerOutput(String data) {
-
-		if (data.length() == 0) {
-			return "nothing changed";
-		} else {
-			return data.trim().replaceAll(" ", ", ") + " changed.";
-		}
-
-	}
-
-	private List<Long> getChangedIngredent(List<Long> alreadyPresentInDB, List<Long> newlyAddedIds) {
-
-		Set<Long> inDB = new HashSet<Long>(alreadyPresentInDB);
-
-		Set<Long> incoming = new HashSet<Long>(newlyAddedIds);
-
-		Map<Long, Integer> map = new HashMap<Long, Integer>();
-
-		for (Long id : inDB) {
-			map.put(id, 1);
-		}
-
-		for (Long id : incoming) {
-			if (map.containsKey(id)) {
-				map.put(id, map.get(id) + 1);
-			} else {
-				map.put(id, 1);
-			}
-		}
-
-		return map.entrySet().stream().filter(aa -> aa.getValue() == 1).map(aa -> aa.getKey())
-				.collect(Collectors.toList());
 	}
 
 }
