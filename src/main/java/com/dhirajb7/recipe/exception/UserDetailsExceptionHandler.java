@@ -7,30 +7,30 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.dhirajb7.recipe.exception.ingredient.IngredientAlreadyPresentException;
-import com.dhirajb7.recipe.exception.ingredient.IngredientNotFoundException;
-import com.dhirajb7.recipe.exception.ingredient.IngredientsCannotBeCreatedException;
+import com.dhirajb7.recipe.exception.userDetail.UserDetailAlreadyPresentException;
+import com.dhirajb7.recipe.exception.userDetail.UserDetailCannotBeCreatedException;
+import com.dhirajb7.recipe.exception.userDetail.UserDetailNotFoundException;
 import com.dhirajb7.recipe.factory.GeneralExceptionGenerator;
 
 @RestControllerAdvice
-public class IngredientsExceptionHandler {
+public class UserDetailsExceptionHandler {
 
 	@ExceptionHandler
-	public ResponseEntity<Object> ingridentNotFound(IngredientNotFoundException e) {
+	public ResponseEntity<Object> userDetailNotFound(UserDetailNotFoundException e) {
 		GeneralExceptionGenerator ge = new GeneralExceptionGenerator(404, e.getMessage(),
 				new Timestamp(System.currentTimeMillis()).toString());
 		return new ResponseEntity<Object>(ge, HttpStatus.NOT_FOUND);
 	}
 
 	@ExceptionHandler
-	public ResponseEntity<Object> ingredientAlreadyPreset(IngredientAlreadyPresentException e) {
+	public ResponseEntity<Object> userDetailAlreadyPreset(UserDetailAlreadyPresentException e) {
 		GeneralExceptionGenerator ge = new GeneralExceptionGenerator(409, e.getMessage(),
 				new Timestamp(System.currentTimeMillis()).toString());
 		return new ResponseEntity<Object>(ge, HttpStatus.CONFLICT);
 	}
 
 	@ExceptionHandler
-	public ResponseEntity<Object> ingridentCannotBeCreated(IngredientsCannotBeCreatedException e) {
+	public ResponseEntity<Object> userDetailCannotBeCreated(UserDetailCannotBeCreatedException e) {
 		GeneralExceptionGenerator ge = new GeneralExceptionGenerator(400, e.getMessage(),
 				new Timestamp(System.currentTimeMillis()).toString());
 		return new ResponseEntity<Object>(ge, HttpStatus.BAD_REQUEST);

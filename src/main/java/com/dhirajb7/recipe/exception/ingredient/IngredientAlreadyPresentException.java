@@ -1,4 +1,4 @@
-package com.dhirajb7.recipe.exception.ingredients;
+package com.dhirajb7.recipe.exception.ingredient;
 
 public class IngredientAlreadyPresentException extends RuntimeException {
 
