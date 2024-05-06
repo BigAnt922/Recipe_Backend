@@ -28,7 +28,7 @@ public class RecipeController {
 	}
 
 	@GetMapping(path = "/{id}")
-	public ResponseEntity<Object> getRecipeById(@PathVariable("id") Long id) {
+	public ResponseEntity<Object> getRecipeById(@PathVariable Long id) {
 		return new ResponseEntity<Object>(service.getRecipeById(id), HttpStatus.OK);
 	}
 
@@ -38,12 +38,12 @@ public class RecipeController {
 	}
 
 	@PutMapping(path = "/{id}")
-	public ResponseEntity<Object> editRecipe(@PathVariable("id") Long id, @RequestBody Recipe recipe) {
+	public ResponseEntity<Object> editRecipe(@PathVariable Long id, @RequestBody Recipe recipe) {
 		return new ResponseEntity<Object>(service.editRecipe(id, recipe), HttpStatus.OK);
 	}
 
 	@DeleteMapping(path = "/{id}")
-	public ResponseEntity<Object> deleteRecipeById(@PathVariable("id") Long id) {
+	public ResponseEntity<Object> deleteRecipeById(@PathVariable Long id) {
 		return new ResponseEntity<Object>(service.deleteRecipeById(id), HttpStatus.OK);
 	}
 

@@ -7,5 +7,4 @@ import lombok.Data;
 @Data
 public class StringToObject {
 	private String message;
-	
 }

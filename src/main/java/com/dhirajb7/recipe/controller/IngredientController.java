@@ -29,7 +29,7 @@ public class IngredientController {
 	}
 
 	@GetMapping(path = "/{id}")
-	public ResponseEntity<Object> getIngredientById(@PathVariable("id") Long id) {
+	public ResponseEntity<Object> getIngredientById(@PathVariable Long id) {
 		return new ResponseEntity<Object>(service.getIngredientById(id), HttpStatus.OK);
 	}
 
@@ -39,13 +39,12 @@ public class IngredientController {
 	}
 
 	@PutMapping(path = "/{id}")
-	public ResponseEntity<StringToObject> editIngredient(@PathVariable("id") Long id,
-			@RequestBody Ingredient ingredient) {
+	public ResponseEntity<StringToObject> editIngredient(@PathVariable Long id, @RequestBody Ingredient ingredient) {
 		return new ResponseEntity<StringToObject>(service.editIngredient(id, ingredient), HttpStatus.OK);
 	}
 
 	@DeleteMapping(path = "/{id}")
-	public ResponseEntity<StringToObject> deleteIngredient(@PathVariable("id") Long id) {
+	public ResponseEntity<StringToObject> deleteIngredient(@PathVariable Long id) {
 		return new ResponseEntity<StringToObject>(service.deleteIngredent(id), HttpStatus.OK);
 	}
 }
