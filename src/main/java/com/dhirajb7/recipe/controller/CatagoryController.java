@@ -14,14 +14,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.dhirajb7.recipe.factory.StringToObject;
 import com.dhirajb7.recipe.modal.Catagory;
-import com.dhirajb7.recipe.service.catagory.CatagoryService;
+import com.dhirajb7.recipe.service.catagory.CatagoryInterface;
 
 @RestController
 @RequestMapping(path = "catagory")
 public class CatagoryController {
 
 	@Autowired
-	private CatagoryService service;
+	private CatagoryInterface service;
 
 	@GetMapping(path = "/")
 	public ResponseEntity<Object> getAllCatagories() {

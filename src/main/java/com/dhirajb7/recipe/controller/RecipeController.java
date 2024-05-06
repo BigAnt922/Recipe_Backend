@@ -13,14 +13,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.dhirajb7.recipe.modal.Recipe;
-import com.dhirajb7.recipe.service.recipe.RecipeService;
+import com.dhirajb7.recipe.service.recipe.RecipeInterface;
 
 @RestController
 @RequestMapping(path = "recipe")
 public class RecipeController {
 
 	@Autowired
-	private RecipeService service;
+	private RecipeInterface service;
 
 	@GetMapping(path = "/")
 	public ResponseEntity<Object> getAllRecipes() {

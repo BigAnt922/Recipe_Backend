@@ -14,14 +14,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.dhirajb7.recipe.factory.StringToObject;
 import com.dhirajb7.recipe.modal.Ingredient;
-import com.dhirajb7.recipe.service.ingredient.IngredentService;
+import com.dhirajb7.recipe.service.ingredient.IngredientInterface;
 
 @RestController
 @RequestMapping(path = "ingredient")
 public class IngredientController {
 
 	@Autowired
-	private IngredentService service;
+	private IngredientInterface service;
 
 	@GetMapping(path = "/")
 	public ResponseEntity<Object> getAllIngredients() {
