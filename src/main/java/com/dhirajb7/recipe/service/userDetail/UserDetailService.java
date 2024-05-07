@@ -40,6 +40,7 @@ public class UserDetailService implements UserDetailsInterface {
 		try {
 			userDetail.setUsername(userDetail.getUsername().toLowerCase());
 			userDetail.setEmail(userDetail.getEmail().toLowerCase());
+			userDetail.setEnable(false);
 			return repo.save(userDetail);
 		} catch (Exception e) {
 			if (e.getMessage().contains("unique")) {
@@ -61,16 +62,12 @@ public class UserDetailService implements UserDetailsInterface {
 					if (userStatus.isStatus()) {
 						return new StringToObject("no change");
 					} else {
-						repo.disableInUserDetails();
-						repo.deleteInUsers(usernameFromRequest);
-						repo.deleteInAuthoroties(usernameFromRequest);
+						// here
 						return new StringToObject("under construction");
 					}
 				} else {
 					if (userStatus.isStatus()) {
-						repo.enableInUserDetails();
-						repo.enableInUsers();
-						repo.enableInAuthoroties();
+						// here
 						return new StringToObject("under construction");
 					} else {
 						return new StringToObject("no change");
@@ -91,8 +88,7 @@ public class UserDetailService implements UserDetailsInterface {
 			String usernameFromDB = detail.getUsername();
 			String usernameFromRequest = userRoles.getUsername();
 			if (usernameFromDB.equalsIgnoreCase(usernameFromRequest) && detail.isEnable()) {
-				repo.updateRoleInUserDetails();
-				repo.updateRoleInAuthoroties();
+				// here
 				return new StringToObject("under construction");
 			} else {
 				throw new UserNotEnabled("user not enabled or username is wrong");
@@ -102,17 +98,17 @@ public class UserDetailService implements UserDetailsInterface {
 		}
 	}
 
+	// user must me disabled and then deleted
 	@Override
 	public StringToObject deleteUserDetail(Long id) {
 		try {
 			UserDetail detail = repo.findById(id).get();
 			if (detail.isEnable()) {
-				String username = detail.getUsername();
-				repo.deleteInUsers(username);
-				repo.deleteInAuthoroties(username);
+				repo.delete(detail);
+				return new StringToObject("User deleted.");
+			} else {
+				throw new UserNotEnabled("user must be diabled"); // user must be disabled
 			}
-			repo.delete(detail);
-			return new StringToObject("User deleted.");
 		} catch (Exception e) {
 			throw new UserDetailNotFoundException("User with id : " + id + " not found");
 		}
