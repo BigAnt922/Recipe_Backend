@@ -14,12 +14,16 @@ import com.dhirajb7.recipe.factory.UserDetail.UserRoles;
 import com.dhirajb7.recipe.factory.UserDetail.UserStatus;
 import com.dhirajb7.recipe.modal.UserDetail;
 import com.dhirajb7.recipe.repo.UserDetailsRespo;
+import com.dhirajb7.recipe.service.Helper;
 
 @Service
 public class UserDetailService implements UserDetailsInterface {
 
 	@Autowired
 	private UserDetailsRespo repo;
+
+	@Autowired
+	private Helper helper;
 
 	@Override
 	public List<UserDetail> getAllUserDetails() {
@@ -60,17 +64,25 @@ public class UserDetailService implements UserDetailsInterface {
 			if (usernameFromDB.equalsIgnoreCase(usernameFromRequest)) {
 				if (detail.isEnable()) {
 					if (userStatus.isStatus()) {
-						return new StringToObject("no change");
+						return new StringToObject("no change to be done");
 					} else {
-						// here
-						return new StringToObject("under construction");
+						repo.disableInUserDetails(id);
+						repo.deleteUserInUsers(usernameFromDB);
+						repo.deleteAuthorityInAuthorotiesBasedOnUsername(usernameFromDB);
+						return new StringToObject("usernameFromDB " + "disabled");
 					}
 				} else {
 					if (userStatus.isStatus()) {
-						// here
-						return new StringToObject("under construction");
+						String passwordFromDB = detail.getPassword();
+						List<String> roles = detail.getRoles();
+						repo.enableInUserDetails(id);
+						repo.addUserInUsers(usernameFromDB, passwordFromDB);
+						for (String role : roles) {
+							repo.addAuthorityInAuthorities(usernameFromDB, role);
+						}
+						return new StringToObject("usernameFromDB " + " enabled.");
 					} else {
-						return new StringToObject("no change");
+						return new StringToObject("no change to be done");
 					}
 				}
 			} else {
@@ -88,10 +100,21 @@ public class UserDetailService implements UserDetailsInterface {
 			String usernameFromDB = detail.getUsername();
 			String usernameFromRequest = userRoles.getUsername();
 			if (usernameFromDB.equalsIgnoreCase(usernameFromRequest) && detail.isEnable()) {
-				// here
-				return new StringToObject("under construction");
+				List<String> rolesInDB = detail.getRoles();
+				List<String> rolesInRequest = userRoles.getRoles();
+				repo.updateRoleInUserDetails(id, rolesInRequest); // update roles in user details DB
+				List<String> roles = helper.getChangedRoles(rolesInDB, rolesInRequest);
+				// update authorities
+				for (String role : roles) {
+					if (rolesInRequest.contains(role)) {
+						repo.addAuthorityInAuthorities(usernameFromDB, role);
+					} else {
+						repo.deleteAuthorityByAuthority(usernameFromDB, role);
+					}
+				}
+				return new StringToObject("Roles Updated");
 			} else {
-				throw new UserNotEnabled("user not enabled or username is wrong");
+				throw new UserNotEnabled("user not enabled");
 			}
 		} catch (UserDetailNotFoundException e) {
 			throw new UserDetailNotFoundException("User with id : " + id + " not found");
@@ -107,7 +130,7 @@ public class UserDetailService implements UserDetailsInterface {
 				repo.delete(detail);
 				return new StringToObject("User deleted.");
 			} else {
-				throw new UserNotEnabled("user must be diabled"); // user must be disabled
+				throw new UserNotEnabled("user must be disabled"); // user must be disabled
 			}
 		} catch (Exception e) {
 			throw new UserDetailNotFoundException("User with id : " + id + " not found");

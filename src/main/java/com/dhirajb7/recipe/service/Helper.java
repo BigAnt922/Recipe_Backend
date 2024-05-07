@@ -46,4 +46,28 @@ public class Helper {
 				.collect(Collectors.toList());
 	}
 
+	public List<String> getChangedRoles(List<String> alreadyPresentInDB, List<String> newlyAddedRoles) {
+
+		Set<String> inDB = new HashSet<String>(alreadyPresentInDB);
+
+		Set<String> incoming = new HashSet<String>(newlyAddedRoles);
+
+		Map<String, Integer> map = new HashMap<String, Integer>();
+
+		for (String id : inDB) {
+			map.put(id, 1);
+		}
+
+		for (String id : incoming) {
+			if (map.containsKey(id)) {
+				map.put(id, map.get(id) + 1);
+			} else {
+				map.put(id, 1);
+			}
+		}
+
+		return map.entrySet().stream().filter(aa -> aa.getValue() == 1).map(aa -> aa.getKey())
+				.collect(Collectors.toList());
+	}
+
 }

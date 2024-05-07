@@ -22,7 +22,7 @@ public interface UserDetailsRespo extends JpaRepository<UserDetail, Long> {
 
 	@Transactional
 	@Modifying
-	@Query(nativeQuery = true, value = "NSERT INTO users(username,password,enabled)VALUES (:username, :password,true)")
+	@Query(nativeQuery = true, value = "INSERT INTO users(username,password,enabled)VALUES (:username, :password,true)")
 	void addUserInUsers(@Param("username") String username, @Param("password") String password);
 
 	@Transactional
