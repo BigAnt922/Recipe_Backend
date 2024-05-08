@@ -47,7 +47,7 @@ public interface UserDetailsRespo extends JpaRepository<UserDetail, Long> {
 
 	@Transactional
 	@Modifying
-	@Query(nativeQuery = true, value = "UPDATE user_details SET roles=:roles WHERE user_details_id=:userDetailsId")
+	@Query(value = "update UserDetail e set e.roles = :roles where e.userDetailsId = :userDetailsId")
 	void updateRoleInUserDetails(@Param("userDetailsId") Long userDetailsId, @Param("roles") List<String> roles);
 
 	@Transactional

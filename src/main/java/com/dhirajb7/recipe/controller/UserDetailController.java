@@ -3,6 +3,7 @@ package com.dhirajb7.recipe.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,13 +39,18 @@ public class UserDetailController {
 		return new ResponseEntity<Object>(service.addUserDetail(userDetail), HttpStatus.CREATED);
 	}
 
-	@PutMapping(path = "/{id}")
+	@PutMapping(path = "/status/{id}")
 	public ResponseEntity<Object> editUserStatus(@PathVariable Long id, @RequestBody UserStatus userStatus) {
 		return new ResponseEntity<Object>(service.editUserEnableStatus(id, userStatus), HttpStatus.OK);
 	}
 
-	@PutMapping(path = "/{id}")
+	@PutMapping(path = "/roles/{id}")
 	public ResponseEntity<Object> editUserRoles(@PathVariable Long id, @RequestBody UserRoles userRoles) {
 		return new ResponseEntity<Object>(service.editUserRoles(id, userRoles), HttpStatus.OK);
+	}
+
+	@DeleteMapping(path = "/{id}")
+	public ResponseEntity<Object> deleteDisabledUsers(@PathVariable Long id) {
+		return new ResponseEntity<Object>(service.deleteUserDetail(id), HttpStatus.OK);
 	}
 }

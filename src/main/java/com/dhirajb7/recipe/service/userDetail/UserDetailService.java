@@ -34,7 +34,7 @@ public class UserDetailService implements UserDetailsInterface {
 	public UserDetail getUserDetailById(Long id) {
 		try {
 			return repo.findById(id).get();
-		} catch (UserDetailNotFoundException e) {
+		} catch (Exception e) {
 			throw new UserDetailNotFoundException("User with id : " + id + " not found");
 		}
 	}
@@ -67,9 +67,9 @@ public class UserDetailService implements UserDetailsInterface {
 						return new StringToObject("no change to be done");
 					} else {
 						repo.disableInUserDetails(id);
-						repo.deleteUserInUsers(usernameFromDB);
 						repo.deleteAuthorityInAuthorotiesBasedOnUsername(usernameFromDB);
-						return new StringToObject("usernameFromDB " + "disabled");
+						repo.deleteUserInUsers(usernameFromDB);
+						return new StringToObject(usernameFromDB + " disabled");
 					}
 				} else {
 					if (userStatus.isStatus()) {
@@ -80,7 +80,7 @@ public class UserDetailService implements UserDetailsInterface {
 						for (String role : roles) {
 							repo.addAuthorityInAuthorities(usernameFromDB, role);
 						}
-						return new StringToObject("usernameFromDB " + " enabled.");
+						return new StringToObject(usernameFromDB + " enabled.");
 					} else {
 						return new StringToObject("no change to be done");
 					}
@@ -88,7 +88,9 @@ public class UserDetailService implements UserDetailsInterface {
 			} else {
 				throw new UserNotEnabled("username is not proper");
 			}
-		} catch (UserDetailNotFoundException e) {
+		} catch (UserNotEnabled e) {
+			throw new UserNotEnabled(e.getMessage());
+		} catch (Exception e) {
 			throw new UserDetailNotFoundException("User with id : " + id + " not found");
 		}
 	}
@@ -116,7 +118,10 @@ public class UserDetailService implements UserDetailsInterface {
 			} else {
 				throw new UserNotEnabled("user not enabled");
 			}
-		} catch (UserDetailNotFoundException e) {
+		} catch (UserNotEnabled e) {
+			throw new UserNotEnabled(e.getMessage());
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
 			throw new UserDetailNotFoundException("User with id : " + id + " not found");
 		}
 	}
@@ -127,11 +132,13 @@ public class UserDetailService implements UserDetailsInterface {
 		try {
 			UserDetail detail = repo.findById(id).get();
 			if (detail.isEnable()) {
+				throw new UserNotEnabled("user must be disabled"); // user must be disabled to delete
+			} else {
 				repo.delete(detail);
 				return new StringToObject("User deleted.");
-			} else {
-				throw new UserNotEnabled("user must be disabled"); // user must be disabled
 			}
+		} catch (UserNotEnabled e) {
+			throw new UserNotEnabled(e.getMessage());
 		} catch (Exception e) {
 			throw new UserDetailNotFoundException("User with id : " + id + " not found");
 		}

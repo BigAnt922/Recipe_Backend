@@ -2,8 +2,6 @@ package com.dhirajb7.recipe.modal;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -34,9 +32,8 @@ public class UserDetail {
 	@Column(nullable = false)
 	private String password;
 
-	private List<String> roles;
+	private List<String> roles; // must be ROLE_XYZ
 
-	@JsonIgnore
 	private boolean enable;
 
 }
