@@ -3,6 +3,7 @@ package com.dhirajb7.recipe.service.userDetail;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.dhirajb7.recipe.exception.userDetail.UserDetailAlreadyPresentException;
@@ -25,6 +26,9 @@ public class UserDetailService implements UserDetailsInterface {
 	@Autowired
 	private Helper helper;
 
+	@Autowired
+	private BCryptPasswordEncoder encoder;
+
 	@Override
 	public List<UserDetail> getAllUserDetails() {
 		return repo.findAll();
@@ -44,6 +48,7 @@ public class UserDetailService implements UserDetailsInterface {
 		try {
 			userDetail.setUsername(userDetail.getUsername().toLowerCase());
 			userDetail.setEmail(userDetail.getEmail().toLowerCase());
+			userDetail.setPassword(encoder.encode(userDetail.getPassword()));
 			userDetail.setEnable(false);
 			return repo.save(userDetail);
 		} catch (Exception e) {
