@@ -32,6 +32,8 @@ public class SecurityConfiguration {
 				.requestMatchers(HttpMethod.GET, "/recipe/**").permitAll()
 				.requestMatchers(HttpMethod.GET, "/catagory/").permitAll()
 				.requestMatchers(HttpMethod.GET, "/catagory/**").permitAll()
+				.requestMatchers(HttpMethod.GET, "/encdec/enc/**").permitAll()
+				.requestMatchers(HttpMethod.GET, "/encdec/dec/**").hasRole("ADMIN")
 				.requestMatchers(HttpMethod.GET, "/swagger-ui/**").hasRole("ADMIN")
 				.requestMatchers(HttpMethod.GET, "/v3/api-docs/**").hasRole("ADMIN")
 				.requestMatchers(HttpMethod.GET, "/user/").hasRole("ADMIN")

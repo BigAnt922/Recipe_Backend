@@ -665,24 +665,66 @@
 			]
 		},
 		{
-			"name": "Test",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "http://localhost:8080/test/",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"test",
-						""
-					]
+			"name": "encdec",
+			"item": [
+				{
+					"name": "enc",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/encdec/enc/Apple",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"encdec",
+								"enc",
+								"Apple"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "dec",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "dhiraj",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "dhiraj",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/encdec/dec/37_84_84_80_73_",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"encdec",
+								"dec",
+								"37_84_84_80_73_"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		},
 		{
 			"name": "swagger",
@@ -716,6 +758,41 @@
 						"index.html"
 					],
 					"hash": "/"
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "test",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "username",
+							"value": "dhiraj",
+							"type": "string"
+						},
+						{
+							"key": "password",
+							"value": "dhiraj",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/test/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"test",
+						""
+					]
 				}
 			},
 			"response": []
