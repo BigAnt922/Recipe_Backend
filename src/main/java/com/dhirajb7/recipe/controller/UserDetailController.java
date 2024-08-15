@@ -37,12 +37,12 @@ public class UserDetailController {
 		return new ResponseEntity<Object>(service.addUserDetail(userDetail), HttpStatus.CREATED);
 	}
 
-	@PutMapping(path = "/{id}")
+	@PutMapping(path = "/password/{id}")
 	public ResponseEntity<Object> editUserPassword(@PathVariable Long id, @RequestBody UserDetail userDetail) {
 		return new ResponseEntity<Object>(service.editUserDetailPassword(id, userDetail), HttpStatus.OK);
 	}
 	
-	@PutMapping(path = "/{id}")
+	@PutMapping(path = "/status/{id}")
 	public ResponseEntity<Object> editUserStatus(@PathVariable Long id, @RequestBody UserDetail userDetail) {
 		return new ResponseEntity<Object>(service.editUserDetailStatus(id, userDetail), HttpStatus.OK);
 	}
