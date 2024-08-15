@@ -39,8 +39,6 @@ public class SecurityConfiguration {
   //Authorization  related
   	@Bean
   	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-
-  		//WORK NEEDS TO BE DONE HERE
   		
   		http.authorizeHttpRequests(config -> config
 				.requestMatchers(HttpMethod.GET, "/test/").permitAll()
@@ -51,23 +49,22 @@ public class SecurityConfiguration {
 				.requestMatchers(HttpMethod.GET, "/recipe/**").permitAll()
 				.requestMatchers(HttpMethod.GET, "/catagory/").permitAll()
 				.requestMatchers(HttpMethod.GET, "/catagory/**").permitAll()
-				.requestMatchers(HttpMethod.GET, "/encdec/enc/**").permitAll()
-				.requestMatchers(HttpMethod.GET, "/encdec/dec/**").hasRole("ADMIN")
 				.requestMatchers(HttpMethod.GET, "/swagger-ui/**").hasRole("ADMIN")
 				.requestMatchers(HttpMethod.GET, "/v3/api-docs/**").hasRole("ADMIN")
 				.requestMatchers(HttpMethod.GET, "/user/").hasRole("ADMIN")
-				.requestMatchers(HttpMethod.GET, "/user/**").hasRole("ADMIN")
-				.requestMatchers(HttpMethod.PUT, "/user/**").hasRole("ADMIN")
+				.requestMatchers(HttpMethod.GET, "/user/**").hasAnyRole("ADMIN","MANAGER")
+				.requestMatchers(HttpMethod.PUT, "/user/password/**").hasAnyRole("ADMIN","MANAGER")
+				.requestMatchers(HttpMethod.PUT, "/user/status/**").hasRole("ADMIN")
 				.requestMatchers(HttpMethod.DELETE, "/user/**").hasRole("ADMIN")
-				.requestMatchers(HttpMethod.POST, "/ingredient/").hasRole("ADMIN")
-				.requestMatchers(HttpMethod.PUT, "/ingredient/**").hasRole("ADMIN")
-				.requestMatchers(HttpMethod.DELETE, "/ingredient/**").hasRole("ADMIN")
-				.requestMatchers(HttpMethod.POST, "/recipe/").hasRole("ADMIN")
-				.requestMatchers(HttpMethod.PUT, "/recipe/**").hasRole("ADMIN")
-				.requestMatchers(HttpMethod.DELETE, "/recipe/**").hasRole("ADMIN")
-				.requestMatchers(HttpMethod.POST, "/catagory/").hasRole("ADMIN")
-				.requestMatchers(HttpMethod.PUT, "/catagory/**").hasRole("ADMIN")
-				.requestMatchers(HttpMethod.DELETE, "/catagory/**").hasRole("ADMIN"));
+				.requestMatchers(HttpMethod.POST, "/ingredient/").hasAnyRole("ADMIN","MANAGER")
+				.requestMatchers(HttpMethod.PUT, "/ingredient/**").hasAnyRole("ADMIN","MANAGER")
+				.requestMatchers(HttpMethod.DELETE, "/ingredient/**").hasAnyRole("ADMIN","MANAGER")
+				.requestMatchers(HttpMethod.POST, "/recipe/").hasAnyRole("ADMIN","MANAGER")
+				.requestMatchers(HttpMethod.PUT, "/recipe/**").hasAnyRole("ADMIN","MANAGER")
+				.requestMatchers(HttpMethod.DELETE, "/recipe/**").hasAnyRole("ADMIN","MANAGER")
+				.requestMatchers(HttpMethod.POST, "/catagory/").hasAnyRole("ADMIN","MANAGER")
+				.requestMatchers(HttpMethod.PUT, "/catagory/**").hasAnyRole("ADMIN","MANAGER")
+				.requestMatchers(HttpMethod.DELETE, "/catagory/**").hasAnyRole("ADMIN","MANAGER"));
 
   		http.httpBasic(Customizer.withDefaults());
 
