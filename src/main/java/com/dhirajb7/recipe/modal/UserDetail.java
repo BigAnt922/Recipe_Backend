@@ -1,7 +1,5 @@
 package com.dhirajb7.recipe.modal;
 
-import java.util.List;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -29,7 +27,7 @@ public class UserDetail {
 	@Column(nullable = false)
 	private String password;
 
-	private List<String> roles; // must be ["ROLE_XYZ","ROLE_ABC"]
+	private String role; // must be "ROLE_XYZ"
 
 	private boolean enable;
 
