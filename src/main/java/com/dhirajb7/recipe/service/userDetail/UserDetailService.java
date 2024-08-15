@@ -3,7 +3,6 @@ package com.dhirajb7.recipe.service.userDetail;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.dhirajb7.recipe.exception.userDetail.UserDetailAlreadyPresentException;
@@ -11,23 +10,14 @@ import com.dhirajb7.recipe.exception.userDetail.UserDetailCannotBeCreatedExcepti
 import com.dhirajb7.recipe.exception.userDetail.UserDetailNotFoundException;
 import com.dhirajb7.recipe.exception.userDetail.UserNotEnabled;
 import com.dhirajb7.recipe.factory.StringToObject;
-import com.dhirajb7.recipe.factory.UserDetail.UserRoles;
-import com.dhirajb7.recipe.factory.UserDetail.UserStatus;
 import com.dhirajb7.recipe.modal.UserDetail;
 import com.dhirajb7.recipe.repo.UserDetailsRespo;
-import com.dhirajb7.recipe.service.Helper;
 
 @Service
 public class UserDetailService implements UserDetailsInterface {
 
 	@Autowired
 	private UserDetailsRespo repo;
-
-	@Autowired
-	private Helper helper;
-
-	@Autowired
-	private BCryptPasswordEncoder encoder;
 
 	@Override
 	public List<UserDetail> getAllUserDetails() {
@@ -47,8 +37,6 @@ public class UserDetailService implements UserDetailsInterface {
 	public UserDetail addUserDetail(UserDetail userDetail) {
 		try {
 			userDetail.setUsername(userDetail.getUsername().toLowerCase());
-			userDetail.setEmail(userDetail.getEmail().toLowerCase());
-			userDetail.setPassword(encoder.encode(userDetail.getPassword()));
 			userDetail.setEnable(false);
 			return repo.save(userDetail);
 		} catch (Exception e) {
@@ -59,76 +47,43 @@ public class UserDetailService implements UserDetailsInterface {
 			}
 		}
 	}
-
+	
 	@Override
-	public StringToObject editUserEnableStatus(Long id, UserStatus userStatus) {
-		try {
-			UserDetail detail = repo.findById(id).get();
-			String usernameFromDB = detail.getUsername();
-			String usernameFromRequest = userStatus.getUsername();
-			if (usernameFromDB.equalsIgnoreCase(usernameFromRequest)) {
-				if (detail.isEnable()) {
-					if (userStatus.isStatus()) {
-						return new StringToObject("no change to be done");
-					} else {
-						repo.disableInUserDetails(id);
-						repo.deleteAuthorityInAuthorotiesBasedOnUsername(usernameFromDB);
-						repo.deleteUserInUsers(usernameFromDB);
-						return new StringToObject(usernameFromDB + " disabled");
-					}
-				} else {
-					if (userStatus.isStatus()) {
-						String passwordFromDB = detail.getPassword();
-						List<String> roles = detail.getRoles();
-						repo.enableInUserDetails(id);
-						repo.addUserInUsers(usernameFromDB, passwordFromDB);
-						for (String role : roles) {
-							repo.addAuthorityInAuthorities(usernameFromDB, role);
-						}
-						return new StringToObject(usernameFromDB + " enabled.");
-					} else {
-						return new StringToObject("no change to be done");
-					}
-				}
-			} else {
-				throw new UserNotEnabled("username is not proper");
+	public StringToObject editUserDetailPassword(Long userDetailId, UserDetail userDetail) {
+		Long idFromDB = repo.findByUsername(userDetail.getUsername()).get().getUserDetailsId();
+		String passwordFRomDB = repo.findByUsername(userDetail.getUsername()).get().getPassword();
+		
+		if(userDetailId.equals(idFromDB)) {
+			
+			if(userDetail.getPassword().equals(passwordFRomDB)) {
+				throw new UserDetailAlreadyPresentException("User Password Are Same");
+			}else {
+				return new StringToObject("Password changed for : "+userDetailId);
 			}
-		} catch (UserNotEnabled e) {
-			throw new UserNotEnabled(e.getMessage());
-		} catch (Exception e) {
-			throw new UserDetailNotFoundException("User with id : " + id + " not found");
+			
+		}else {
+			throw new UserDetailNotFoundException("User with id : " + userDetailId + " not found");
 		}
+		
 	}
 
 	@Override
-	public StringToObject editUserRoles(Long id, UserRoles userRoles) {
-		try {
-			UserDetail detail = repo.findById(id).get();
-			String usernameFromDB = detail.getUsername();
-			String usernameFromRequest = userRoles.getUsername();
-			if (usernameFromDB.equalsIgnoreCase(usernameFromRequest) && detail.isEnable()) {
-				List<String> rolesInDB = detail.getRoles();
-				List<String> rolesInRequest = userRoles.getRoles();
-				repo.updateRoleInUserDetails(id, rolesInRequest); // update roles in user details DB
-				List<String> roles = helper.getChangedRoles(rolesInDB, rolesInRequest);
-				// update authorities
-				for (String role : roles) {
-					if (rolesInRequest.contains(role)) {
-						repo.addAuthorityInAuthorities(usernameFromDB, role);
-					} else {
-						repo.deleteAuthorityByAuthority(usernameFromDB, role);
-					}
-				}
-				return new StringToObject("Roles Updated");
-			} else {
-				throw new UserNotEnabled("user not enabled");
+	public StringToObject editUserDetailStatus(Long userDetailId, UserDetail userDetail) {
+		Long idFromDB = repo.findByUsername(userDetail.getUsername()).get().getUserDetailsId();
+		boolean statusFromDB = repo.findByUsername(userDetail.getUsername()).get().isEnable();
+
+		if(userDetailId.equals(idFromDB)) {
+			
+			if( userDetail.isEnable()==statusFromDB) {
+				throw new UserDetailAlreadyPresentException("User Enable Status Are Same.");
+			}else {
+				return new StringToObject("Status changed for : "+userDetailId);
 			}
-		} catch (UserNotEnabled e) {
-			throw new UserNotEnabled(e.getMessage());
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			throw new UserDetailNotFoundException("User with id : " + id + " not found");
+			
+		}else {
+			throw new UserDetailNotFoundException("User with id : " + userDetailId + " not found");
 		}
+
 	}
 
 	// user must me disabled and then deleted
@@ -148,5 +103,6 @@ public class UserDetailService implements UserDetailsInterface {
 			throw new UserDetailNotFoundException("User with id : " + id + " not found");
 		}
 	}
+
 
 }

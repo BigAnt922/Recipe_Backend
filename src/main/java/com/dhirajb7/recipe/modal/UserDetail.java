@@ -26,13 +26,10 @@ public class UserDetail {
 	@Column(nullable = false, unique = true)
 	private String username;
 
-	@Column(nullable = false, unique = true)
-	private String email;
-
 	@Column(nullable = false)
 	private String password;
 
-	private List<String> roles; // must be ROLE_XYZ
+	private List<String> roles; // must be ["ROLE_XYZ","ROLE_ABC"]
 
 	private boolean enable;
 
