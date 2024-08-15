@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.dhirajb7.recipe.factory.UserDetail.UserRoles;
-import com.dhirajb7.recipe.factory.UserDetail.UserStatus;
 import com.dhirajb7.recipe.modal.UserDetail;
 import com.dhirajb7.recipe.service.userDetail.UserDetailsInterface;
 
@@ -39,18 +37,18 @@ public class UserDetailController {
 		return new ResponseEntity<Object>(service.addUserDetail(userDetail), HttpStatus.CREATED);
 	}
 
+	@PutMapping(path = "/password/{id}")
+	public ResponseEntity<Object> editUserPassword(@PathVariable Long id, @RequestBody UserDetail userDetail) {
+		return new ResponseEntity<Object>(service.editUserDetailPassword(id, userDetail), HttpStatus.OK);
+	}
+	
 	@PutMapping(path = "/status/{id}")
-	public ResponseEntity<Object> editUserStatus(@PathVariable Long id, @RequestBody UserStatus userStatus) {
-		return new ResponseEntity<Object>(service.editUserEnableStatus(id, userStatus), HttpStatus.OK);
+	public ResponseEntity<Object> editUserStatus(@PathVariable Long id, @RequestBody UserDetail userDetail) {
+		return new ResponseEntity<Object>(service.editUserDetailStatus(id, userDetail), HttpStatus.OK);
 	}
-
-	@PutMapping(path = "/roles/{id}")
-	public ResponseEntity<Object> editUserRoles(@PathVariable Long id, @RequestBody UserRoles userRoles) {
-		return new ResponseEntity<Object>(service.editUserRoles(id, userRoles), HttpStatus.OK);
-	}
-
+	
 	@DeleteMapping(path = "/{id}")
-	public ResponseEntity<Object> deleteDisabledUsers(@PathVariable Long id) {
+	public ResponseEntity<Object> deleteUser(@PathVariable Long id) {
 		return new ResponseEntity<Object>(service.deleteUserDetail(id), HttpStatus.OK);
 	}
 }
