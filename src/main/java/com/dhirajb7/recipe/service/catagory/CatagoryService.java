@@ -6,12 +6,12 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.dhirajb7.recipe.entity.Catagory;
+import com.dhirajb7.recipe.entity.Recipe;
 import com.dhirajb7.recipe.exception.catagory.CatagoryAlreadyPresentException;
 import com.dhirajb7.recipe.exception.catagory.CatagoryCannotBeCreatedException;
 import com.dhirajb7.recipe.exception.catagory.CatagoryNotFoundException;
-import com.dhirajb7.recipe.factory.StringToObject;
-import com.dhirajb7.recipe.modal.Catagory;
-import com.dhirajb7.recipe.modal.Recipe;
+import com.dhirajb7.recipe.modal.StringToObject;
 import com.dhirajb7.recipe.repo.CatagoryRepo;
 import com.dhirajb7.recipe.service.Helper;
 

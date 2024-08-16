@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.dhirajb7.recipe.modal.Ingredient;
+import com.dhirajb7.recipe.entity.Ingredient;
 
 import jakarta.transaction.Transactional;
 

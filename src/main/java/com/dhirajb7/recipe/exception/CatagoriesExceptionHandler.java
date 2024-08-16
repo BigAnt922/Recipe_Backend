@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import com.dhirajb7.recipe.exception.catagory.CatagoryAlreadyPresentException;
 import com.dhirajb7.recipe.exception.catagory.CatagoryCannotBeCreatedException;
 import com.dhirajb7.recipe.exception.catagory.CatagoryNotFoundException;
-import com.dhirajb7.recipe.factory.GeneralExceptionGenerator;
+import com.dhirajb7.recipe.modal.GeneralExceptionGenerator;
 
 @RestControllerAdvice
 public class CatagoriesExceptionHandler {

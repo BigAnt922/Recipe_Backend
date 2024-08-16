@@ -6,11 +6,11 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.dhirajb7.recipe.entity.Ingredient;
 import com.dhirajb7.recipe.exception.ingredient.IngredientAlreadyPresentException;
 import com.dhirajb7.recipe.exception.ingredient.IngredientNotFoundException;
 import com.dhirajb7.recipe.exception.ingredient.IngredientsCannotBeCreatedException;
-import com.dhirajb7.recipe.factory.StringToObject;
-import com.dhirajb7.recipe.modal.Ingredient;
+import com.dhirajb7.recipe.modal.StringToObject;
 import com.dhirajb7.recipe.repo.IngredientRepo;
 import com.dhirajb7.recipe.service.Helper;
 

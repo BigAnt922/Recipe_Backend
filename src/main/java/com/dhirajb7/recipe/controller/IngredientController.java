@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.dhirajb7.recipe.factory.StringToObject;
-import com.dhirajb7.recipe.modal.Ingredient;
+import com.dhirajb7.recipe.entity.Ingredient;
+import com.dhirajb7.recipe.modal.StringToObject;
 import com.dhirajb7.recipe.service.ingredient.IngredientInterface;
 
 @RestController

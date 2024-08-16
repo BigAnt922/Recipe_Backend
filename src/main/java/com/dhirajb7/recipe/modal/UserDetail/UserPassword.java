@@ -1,11 +1,11 @@
-package com.dhirajb7.recipe.factory.UserDetail;
+package com.dhirajb7.recipe.modal.UserDetail;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class UserStatus {
+public class UserPassword {
 	private String username;
-	private boolean status;
+	private String password;
 }

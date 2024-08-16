@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.dhirajb7.recipe.modal.Recipe;
+import com.dhirajb7.recipe.entity.Recipe;
 import com.dhirajb7.recipe.service.recipe.RecipeInterface;
 
 @RestController

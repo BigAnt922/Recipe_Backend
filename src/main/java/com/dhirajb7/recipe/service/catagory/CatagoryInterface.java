@@ -2,8 +2,8 @@ package com.dhirajb7.recipe.service.catagory;
 
 import java.util.List;
 
-import com.dhirajb7.recipe.factory.StringToObject;
-import com.dhirajb7.recipe.modal.Catagory;
+import com.dhirajb7.recipe.entity.Catagory;
+import com.dhirajb7.recipe.modal.StringToObject;
 
 public interface CatagoryInterface {
 

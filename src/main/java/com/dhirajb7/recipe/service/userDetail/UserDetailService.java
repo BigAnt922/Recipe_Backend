@@ -1,16 +1,19 @@
 package com.dhirajb7.recipe.service.userDetail;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.dhirajb7.recipe.entity.UserDetail;
 import com.dhirajb7.recipe.exception.userDetail.UserDetailAlreadyPresentException;
 import com.dhirajb7.recipe.exception.userDetail.UserDetailCannotBeCreatedException;
 import com.dhirajb7.recipe.exception.userDetail.UserDetailNotFoundException;
 import com.dhirajb7.recipe.exception.userDetail.UserNotEnabled;
-import com.dhirajb7.recipe.factory.StringToObject;
-import com.dhirajb7.recipe.modal.UserDetail;
+import com.dhirajb7.recipe.modal.StringToObject;
+import com.dhirajb7.recipe.modal.UserDetail.UserPassword;
 import com.dhirajb7.recipe.repo.UserDetailsRespo;
 
 @Service
@@ -18,6 +21,9 @@ public class UserDetailService implements UserDetailsInterface {
 
 	@Autowired
 	private UserDetailsRespo repo;
+	
+	@Autowired
+	private PasswordEncoder encoder;
 
 	@Override
 	public List<UserDetail> getAllUserDetails() {
@@ -37,6 +43,7 @@ public class UserDetailService implements UserDetailsInterface {
 	public UserDetail addUserDetail(UserDetail userDetail) {
 		try {
 			userDetail.setUsername(userDetail.getUsername().toLowerCase());
+			userDetail.setPassword(encoder.encode(userDetail.getPassword()));
 			userDetail.setEnable(false);
 			return repo.save(userDetail);
 		} catch (Exception e) {
@@ -49,40 +56,39 @@ public class UserDetailService implements UserDetailsInterface {
 	}
 	
 	@Override
-	public StringToObject editUserDetailPassword(Long userDetailId, UserDetail userDetail) {
-		Long idFromDB = repo.findByUsername(userDetail.getUsername()).get().getUserDetailsId();
-		String passwordFRomDB = repo.findByUsername(userDetail.getUsername()).get().getPassword();
+	public StringToObject editUserDetailPassword(Long userDetailId, UserPassword userPassword) {
+		
+		Long idFromDB = repo.findByUsername(userPassword.getUsername()).get().getUserDetailsId();
+		String passwordFRomDB = repo.findByUsername(userPassword.getUsername()).get().getPassword();
+		
 		
 		if(userDetailId.equals(idFromDB)) {
 			
-			if(userDetail.getPassword().equals(passwordFRomDB)) {
-				throw new UserDetailAlreadyPresentException("User Password Are Same");
+			if(encoder.matches(userPassword.getPassword(), passwordFRomDB)) {
+				throw new UserDetailAlreadyPresentException("New Password matches old password");
 			}else {
+				String newPassword = encoder.encode(userPassword.getPassword()); 
+				repo.updatePassword(newPassword, userDetailId);
 				return new StringToObject("Password changed for : "+userDetailId);
 			}
 			
 		}else {
-			throw new UserDetailNotFoundException("User with id : " + userDetailId + " not found");
+			throw new UserDetailAlreadyPresentException("Different User");
 		}
 		
 	}
 
 	@Override
-	public StringToObject editUserDetailStatus(Long userDetailId, UserDetail userDetail) {
-		Long idFromDB = repo.findByUsername(userDetail.getUsername()).get().getUserDetailsId();
-		boolean statusFromDB = repo.findByUsername(userDetail.getUsername()).get().isEnable();
-
-		if(userDetailId.equals(idFromDB)) {
-			
-			if( userDetail.isEnable()==statusFromDB) {
-				throw new UserDetailAlreadyPresentException("User Enable Status Are Same.");
-			}else {
-				return new StringToObject("Status changed for : "+userDetailId);
-			}
-			
-		}else {
-			throw new UserDetailNotFoundException("User with id : " + userDetailId + " not found");
-		}
+	public StringToObject editUserDetailStatus(Long userDetailId) {
+		 Optional<UserDetail> userDetail = repo.findById(userDetailId);
+		 
+		 if(userDetail.isPresent()) {
+			 boolean statusFromDB = userDetail.get().isEnable();
+			 repo.updateUserStatus(!statusFromDB,userDetailId);
+			 return new StringToObject("Status has been chnaged for id : " + userDetailId);
+		 }else {
+			 throw new UserDetailNotFoundException("User with id : " + userDetailId + " not found");
+		 }
 
 	}
 

@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import com.dhirajb7.recipe.factory.GeneralExceptionGenerator;
+import com.dhirajb7.recipe.modal.GeneralExceptionGenerator;
 
 @RestControllerAdvice
 public class ZExceptionHandler {

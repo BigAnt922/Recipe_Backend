@@ -7,12 +7,12 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.dhirajb7.recipe.entity.Ingredient;
+import com.dhirajb7.recipe.entity.Recipe;
 import com.dhirajb7.recipe.exception.recipe.RecipeAlreadyPresentException;
 import com.dhirajb7.recipe.exception.recipe.RecipeCannotBeCreatedException;
 import com.dhirajb7.recipe.exception.recipe.RecipeNotFoundException;
-import com.dhirajb7.recipe.factory.StringToObject;
-import com.dhirajb7.recipe.modal.Ingredient;
-import com.dhirajb7.recipe.modal.Recipe;
+import com.dhirajb7.recipe.modal.StringToObject;
 import com.dhirajb7.recipe.repo.RecipeRepo;
 import com.dhirajb7.recipe.service.Helper;
 

@@ -9,7 +9,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.dhirajb7.recipe.modal.UserDetail;
+import com.dhirajb7.recipe.entity.UserDetail;
 
 public class UserDetailsToUserDetailsDB implements UserDetails {
 

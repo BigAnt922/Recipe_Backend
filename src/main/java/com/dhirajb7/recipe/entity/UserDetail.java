@@ -1,4 +1,4 @@
-package com.dhirajb7.recipe.modal;
+package com.dhirajb7.recipe.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

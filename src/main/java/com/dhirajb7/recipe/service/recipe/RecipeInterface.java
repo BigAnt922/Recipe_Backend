@@ -2,8 +2,8 @@ package com.dhirajb7.recipe.service.recipe;
 
 import java.util.List;
 
-import com.dhirajb7.recipe.factory.StringToObject;
-import com.dhirajb7.recipe.modal.Recipe;
+import com.dhirajb7.recipe.entity.Recipe;
+import com.dhirajb7.recipe.modal.StringToObject;
 
 public interface RecipeInterface {
 

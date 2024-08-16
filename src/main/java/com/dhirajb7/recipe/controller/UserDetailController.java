@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.dhirajb7.recipe.modal.UserDetail;
+import com.dhirajb7.recipe.entity.UserDetail;
+import com.dhirajb7.recipe.modal.UserDetail.UserPassword;
 import com.dhirajb7.recipe.service.userDetail.UserDetailsInterface;
 
 @RestController
@@ -38,13 +39,13 @@ public class UserDetailController {
 	}
 
 	@PutMapping(path = "/password/{id}")
-	public ResponseEntity<Object> editUserPassword(@PathVariable Long id, @RequestBody UserDetail userDetail) {
-		return new ResponseEntity<Object>(service.editUserDetailPassword(id, userDetail), HttpStatus.OK);
+	public ResponseEntity<Object> editUserPassword(@PathVariable Long id, @RequestBody UserPassword userPassword) {
+		return new ResponseEntity<Object>(service.editUserDetailPassword(id, userPassword), HttpStatus.OK);
 	}
 	
 	@PutMapping(path = "/status/{id}")
-	public ResponseEntity<Object> editUserStatus(@PathVariable Long id, @RequestBody UserDetail userDetail) {
-		return new ResponseEntity<Object>(service.editUserDetailStatus(id, userDetail), HttpStatus.OK);
+	public ResponseEntity<Object> editUserStatus(@PathVariable Long id) {
+		return new ResponseEntity<Object>(service.editUserDetailStatus(id), HttpStatus.OK);
 	}
 	
 	@DeleteMapping(path = "/{id}")

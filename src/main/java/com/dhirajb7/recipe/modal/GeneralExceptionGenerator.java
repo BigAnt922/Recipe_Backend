@@ -1,4 +1,4 @@
-package com.dhirajb7.recipe.factory;
+package com.dhirajb7.recipe.modal;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

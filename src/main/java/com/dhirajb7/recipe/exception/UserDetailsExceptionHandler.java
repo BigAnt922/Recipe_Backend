@@ -11,7 +11,7 @@ import com.dhirajb7.recipe.exception.userDetail.UserDetailAlreadyPresentExceptio
 import com.dhirajb7.recipe.exception.userDetail.UserDetailCannotBeCreatedException;
 import com.dhirajb7.recipe.exception.userDetail.UserDetailNotFoundException;
 import com.dhirajb7.recipe.exception.userDetail.UserNotEnabled;
-import com.dhirajb7.recipe.factory.GeneralExceptionGenerator;
+import com.dhirajb7.recipe.modal.GeneralExceptionGenerator;
 
 @RestControllerAdvice
 public class UserDetailsExceptionHandler {

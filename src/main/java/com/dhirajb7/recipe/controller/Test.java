@@ -1,12 +1,13 @@
 package com.dhirajb7.recipe.controller;
 
-import com.dhirajb7.recipe.factory.StringToObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.dhirajb7.recipe.modal.StringToObject;
 
 @RestController
 @RequestMapping(path = "test")

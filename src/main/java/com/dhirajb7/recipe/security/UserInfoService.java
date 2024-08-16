@@ -7,7 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.provisioning.UserDetailsManager;
 
-import com.dhirajb7.recipe.modal.UserDetail;
+import com.dhirajb7.recipe.entity.UserDetail;
 import com.dhirajb7.recipe.repo.UserDetailsRespo;
 
 public class UserInfoService implements UserDetailsManager {

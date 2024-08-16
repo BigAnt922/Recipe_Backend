@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import com.dhirajb7.recipe.exception.recipe.RecipeAlreadyPresentException;
 import com.dhirajb7.recipe.exception.recipe.RecipeCannotBeCreatedException;
 import com.dhirajb7.recipe.exception.recipe.RecipeNotFoundException;
-import com.dhirajb7.recipe.factory.GeneralExceptionGenerator;
+import com.dhirajb7.recipe.modal.GeneralExceptionGenerator;
 
 @RestControllerAdvice
 public class RecipesExceptionHandler {
